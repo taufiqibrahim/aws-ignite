@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mysql:8
+    container_name: awsdemo-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: awsdemo
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: ThePassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+volumes:
+  dbdata:
