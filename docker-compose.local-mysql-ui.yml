@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: awsdemo-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: awsdemo
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: ThePassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: awsdemo-backend
+    env_file: ./backend/.env
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - mysql
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: awsdemo-frontend
+    env_file: ./frontend/.env
+    ports:
+      - "3000:3000"
+    restart: always
+
+volumes:
+  dbdata:

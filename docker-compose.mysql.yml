@@ -1,5 +1,5 @@
 services:
-  db:
+  mysql:
     image: mysql:8
     container_name: awsdemo-mysql
     environment:
