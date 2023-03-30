@@ -22,7 +22,7 @@ docker compose -f docker-compose.local-mysql-ui.yml up -d
 
 Wait until MySQL container ready, then enter MySQL container using:
 ```bash
-docker exec -it awsdemo-mysql mysql
+docker exec -it awsdemo-mysql bash
 ```
 
 Inside the container, login to MySQL database:
@@ -100,6 +100,7 @@ cd backend
 
 # Build using profile aws which calls for application-aws.properties
 ./mvnw clean package -DskipTests
+
 cd ..
 
 aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 880070412515.dkr.ecr.ap-southeast-1.amazonaws.com
@@ -117,10 +118,12 @@ docker push 880070412515.dkr.ecr.ap-southeast-1.amazonaws.com/aws-ignite-backend
 
 ### 6 Upload Assets To S3
 ```bash
+cd frontend
 # build
-REACT_APP_API_URL=http://aws-ignite-backend-alb-532948125.ap-southeast-1.elb.amazonaws.com/api yarn 
+REACT_APP_API_URL=http://aws-ignite-backend-alb-560077133.ap-southeast-1.elb.amazonaws.com/api yarn build
 
 # upload assets
+cd build
 aws s3 sync . s3://tole-2515-static-public/
 ```
 
